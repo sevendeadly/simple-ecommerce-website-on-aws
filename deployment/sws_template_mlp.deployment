@@ -1,10 +1,10 @@
 {
-    "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "(SO9097) Launch a Wordpress-Env-to-Lightsail. Version 0.0.1",
+    "AWSTemplateFormatVersion": "2024-04-04",
+    "Description": "(SO9097) Launch a Wordpress-Env-to-Lightsail. Version 0.0.2",
     "Parameters": {
         "WordpressAdminCredentials": {
             "Type": "String",
-            "Default": "WordpressAdminCredentials",
+            "Default": "WPAdminCredentials",
             "Description": "The name of the AWS Secrets Manager secret stored in the same region and account.",
             "MinLength": 1
         },
@@ -87,7 +87,7 @@
                             },
                             ":secret:",
                             {
-                                "Ref": "WordpressAdminCredentials"
+                                "Ref": "WPAdminCredentials"
                             },
                             ":SecretString:AdminUsername::}} ",
                             {
@@ -107,7 +107,7 @@
                             },
                             ":secret:",
                             {
-                                "Ref": "WordpressAdminCredentials"
+                                "Ref": "WPAdminCredentials"
                             },
                             ":SecretString:AdminPassword::}} --role=administrator      # install the elementor plugin\n          /opt/bitnami/wp-cli/bin/wp plugin install elementor --activate\n     echo \"##### INSTALL WP STATISTICS #####\"\n    /opt/bitnami/wp-cli/bin/wp plugin install wp-statistics --activate\n          echo \"##### INSTALL WOOCOMMERCE\"\n          /opt/bitnami/wp-cli/bin/wp plugin install woocommerce --activate\n          echo \"##### INSTALL WP Mail SMTP\"\n          /opt/bitnami/wp-cli/bin/wp plugin install wp-mail-smtp --activate\n          echo \"##### CONFIGURE Distribution Settings\"\n          chmod 664 /opt/bitnami/wordpress/wp-config.php\n          sudo /opt/bitnami/wp-cli/bin/wp config delete WP_SITEURL\n          sudo /opt/bitnami/wp-cli/bin/wp config delete WP_HOME \n          sed -i 1d /opt/bitnami/wordpress/wp-config.php\n          touch /tmp/newfile.txt\n          echo \"<?php\ndefine('WP_SITEURL', 'https://' . \\$_SERVER['HTTP_HOST'] . '/');\ndefine('WP_HOME', 'https://' . \\$_SERVER['HTTP_HOST'] . '/');\nif (isset(\\$_SERVER['HTTP_CLOUDFRONT_FORWARDED_PROTO'])\n&& \\$_SERVER['HTTP_CLOUDFRONT_FORWARDED_PROTO'] === 'https') {\n\\$_SERVER['HTTPS'] = 'on';\n}\" > /tmp/newfile.txt\n          cat /opt/bitnami/wordpress/wp-config.php >> /tmp/newfile.txt\n          cp /tmp/newfile.txt /opt/bitnami/wordpress/wp-config.php\n         sudo /opt/bitnami/ctlscript.sh restart apache \n"
                         ]
